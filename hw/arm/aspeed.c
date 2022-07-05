@@ -402,6 +402,9 @@ static void aspeed_machine_init(MachineState *machine)
     DeviceState *m25p80 = qdev_new("n25q256a");
     qdev_realize(m25p80, BUS(spi_gpio->spi), &error_fatal);
 
+    DeviceState *TpmTisSpi = qdev_new("tpm-tis-spi-device");
+    qdev_realize(TpmTisSpi, BUS(spi_gpio->spi), &error_fatal);
+
     qdev_connect_gpio_out_named(DEVICE(&bmc->soc.gpio), "sysbus-irq", AST_GPIO_IRQ_X0_NUM,
                                 qdev_get_gpio_in_named(DEVICE(spi_gpio), "SPI_CS_in", 0));
     qdev_connect_gpio_out_named(DEVICE(&bmc->soc.gpio), "sysbus-irq", AST_GPIO_IRQ_X3_NUM,
